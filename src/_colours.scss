@@ -113,4 +113,8 @@ $cool: #00f;
     [class^="text"] {
         color: var(--color);
     }
+
+    [class^="border"] {
+        border-color: var(--color);
+    }
 }
