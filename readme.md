@@ -2,6 +2,8 @@
 
 This SCSS file, `_colours.scss`, is a configuration file for defining and manipulating theme colors in your SCSS projects. It provides a flexible system for generating color variables and utility classes that can be used throughout your stylesheets.
 
+This project was inspired by [this article](https://developer.mozilla.org/en-US/blog/color-palettes-css-color-mix/) written by Michelle Barker at developer.mozilla.org, where she essentially explains how to do all this manually, goes into detail on how it works, as well as touches on the differences between the different kinds of colour spaces used when mixing colours using the CSS `color-mix` function.
+
 ## Features
 
 1. **Theme Colors**: Define your theme colors using the `$theme-colors` map. These colors will be used as the base for generating lighter and darker shades, as well as warm and cool variants.
