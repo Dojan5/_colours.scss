@@ -41,3 +41,8 @@ To then make use of the utility classes, you just add the class `bg-{colour}` fo
 <h1 class="text-secondary--dark"></div>
 <section class="border-tertiary--light cold--20"></section>
 ```
+
+## Preview
+Given default settings, this is the output.
+
+![Preview screenshot](/img/default-preview.png?raw=true)
