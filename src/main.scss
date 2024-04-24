@@ -1,0 +1,23 @@
+@import './colours';
+
+:root {
+    @include generate-color-variables(true, true);
+}
+
+@include generate-utility-classes(true, true);
+
+body {
+    display: flex;
+    gap: 1rem;
+}
+
+.palette {
+    display: inline-grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 0rem;
+}
+
+.palette div {
+    height: 3rem;
+    width: 3rem;
+}

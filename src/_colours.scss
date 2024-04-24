@@ -1,0 +1,116 @@
+// These colours will be used as bases for blending.
+// You can have as many or as few as you like.
+$theme-colors: (
+    "primary": #42929b,
+    "secondary": #FF5A5F,
+    "tertiary": #C1839F
+);
+
+// Steps is used to generate the number of shade blending modifier classes,
+// if set to 0, no classes will be generated.
+// Increment is converted to a percent value, and will be used as
+// the initial fallback value for blending amount.
+$steps: 1;
+$increment: 10;
+
+// The colour space to use for blending.
+// Examples: oklch, oklab, srgb
+// You can also do 'oklch longer hue', etc..
+$color-space: oklch;
+
+// These colours are used to generate lighter and darker
+// shades of the above theme colours.
+// The truer white/black these are, the more contrasty the
+// blended colours will be.
+$dark: #3C3C3C;
+$light: #D5D5D5;
+
+// These colours are used to create warm and cool variants
+// of the above colours.
+$warm: #f00;
+$cool: #00f;
+
+// Mixin used to generate the colour variables based
+// on the above $theme-colors map.
+// Ensure that this is called in either :root, or a 
+// global selector to ensure that the variables are
+// accessible throughout.
+// 
+// Usage: @include generate-color-variables;
+@mixin generate-color-variables($lightness: true, $temperature: true) {
+    @if $lightness {
+        --light: #{$light};
+        --dark: #{$dark};
+    }
+
+    @if $temperature {
+        --warm: #{$warm};
+        --cool: #{$cool};
+    }
+
+    @each $color-name, $base-color in $theme-colors {
+        --#{$color-name}: #{$base-color};
+
+        @if $lightness {
+            --#{$color-name}-light: color-mix(in #{$color-space}, var(--#{$color-name}), var(--light));
+            --#{$color-name}-lighter: color-mix(in #{$color-space}, var(--#{$color-name}), var(--light) 75%);
+            --#{$color-name}-dark: color-mix(in #{$color-space}, var(--#{$color-name}), var(--dark));
+            --#{$color-name}-darker: color-mix(in #{$color-space}, var(--#{$color-name}), var(--dark) 75%);
+        }
+    }
+}
+
+// Mixin used to generate utility classes for blending
+@mixin generate-utility-classes($lightness: true, $temperature: true, $monochrome: true) {
+    @if $temperature {
+        [class*="warm"] {
+            --mix-color: var(--warm);
+        }
+    
+        [class*="cool"] {
+            --mix-color: var(--cool);
+        }
+
+        @if $steps > 0 {
+            @for $i from 1 through $steps {
+                [class$="--#{($i + 1) * $increment}"] {
+                    --amount: #{($i + 1) * $increment}%;
+                }
+            }
+        }
+    }
+
+    @each $color-name, $base-color in $theme-colors {
+        [class*="-#{$color-name}"] {
+            --color: var(--#{$color-name});
+        }
+
+        @if $lightness {
+            [class*="-#{$color-name}--dark"] {
+                --color: var(--#{$color-name}-dark);
+            }
+    
+            [class*="-#{$color-name}--darker"] {
+                --color: var(--#{$color-name}-darker);
+            }
+    
+            [class*="-#{$color-name}--light"] {
+                --color: var(--#{$color-name}-light);
+            }
+    
+            [class*="-#{$color-name}--lighter"] {
+                --color: var(--#{$color-name}-lighter);
+            }
+        }
+    }
+
+    [class^="bg"] {
+        background-color: color-mix(in #{$color-space},
+            var(--color),
+            var(--mix-color, var(--color)) var(--amount, 10%));
+    }
+
+    [class^="text"] {
+        color: var(--color);
+    }
+}
