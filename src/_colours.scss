@@ -104,17 +104,17 @@ $cool: #00f;
         }
     }
 
-    [class^="bg"] {
+    [class*="bg"] {
         background-color: color-mix(in #{$color-space},
             var(--color),
             var(--mix-color, var(--color)) var(--amount, 10%));
     }
 
-    [class^="text"] {
+    [class*="text"] {
         color: var(--color);
     }
 
-    [class^="border"] {
+    [class*="border"] {
         border-color: var(--color);
     }
 }
